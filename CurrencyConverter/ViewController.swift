@@ -9,14 +9,16 @@
 import UIKit
 
 class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
+    
     @IBOutlet weak var amountLabel: UITextField!
+    @IBOutlet weak var baseCurrencyType: UILabel!
+    
     @IBOutlet weak var convertedLabel: UILabel!
     @IBOutlet weak var convertedCurrencyType: UILabel!
     
     @IBOutlet weak var currencyPicker: UIPickerView!
     
-    let baseCurrency: [String] = ["USD"]
+    let baseCurrency: [String] = ["USD", "AUD", "CAD", "DUB", "EUR"]
     
     let compareCurrency: [String] = ["USD", "AUD", "CAD", "DUB", "EUR"]
     
@@ -28,14 +30,26 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         currencyPicker.dataSource = self
         currencyPicker.delegate = self
         
-        print(amountLabel.text)
+        print(amountLabel.text!)
         
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:))))
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    // TODO: create a function to convert everything to USD
+    func toUSD(amount: Double, conversion: Double) -> Double {
+        
+        return amount/conversion
+    }
+    
+    // TODO: create a function to convert between differecnt currencies
+    func convertBetweenCurrencies(amount: Double) -> String {
+        
+        return ""
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -53,7 +67,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             return compareCurrency.count
         }
     }
-
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
@@ -74,15 +88,15 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 case "AUD":
                     convertedLabel.text = "\(Double(formattedCurrency)! * 1.324)"
                     convertedCurrencyType.text = "AUD"
-                
+                    
                 case "CAD":
                     convertedLabel.text = "\(Double(formattedCurrency)! * 1.333)"
                     convertedCurrencyType.text = "CAD"
-
+                    
                 case "DUB":
                     convertedLabel.text = "\(Double(formattedCurrency)! * 0.196)"
                     convertedCurrencyType.text = "DUB"
-
+                    
                 case "EUR":
                     convertedLabel.text = "\(Double(formattedCurrency)! * 0.896)"
                     convertedCurrencyType.text = "EUR"
@@ -99,6 +113,6 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             }
         }
     }
-
+    
 }
 
