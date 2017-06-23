@@ -18,9 +18,10 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     @IBOutlet weak var currencyPicker: UIPickerView!
     
-    let baseCurrency: [String] = ["USD", "AUD", "CAD", "DUB", "EUR"]
+    let baseCurrencies: [String] = ["USD", "AUD", "CAD", "DUB", "EUR"]
+    let currencies: [(String, Double)] = [("USD", 1.00), ("AUD", 1.324), ("DUB", 0.196)]
     
-    let compareCurrency: [String] = ["USD", "AUD", "CAD", "DUB", "EUR"]
+    let compareCurrencies: [String] = ["USD", "AUD", "CAD", "DUB", "EUR"]
     
     
     override func viewDidLoad() {
@@ -46,25 +47,35 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         return amount/conversion
     }
     
-    // TODO: create a function to convert between differecnt currencies
-    func convertBetweenCurrencies(amount: Double) -> String {
+    // TODO: create a function to convert between different currencies
+    func convertBetweenCurrencies(amount: Double, currencyTypeBase: Double, currencyTypeConversion: Double) -> String {
+        let baseCurrency = self.baseCurrencies[currencyPicker.selectedRow(inComponent: 0)]
+        let conversionCurrency = self.compareCurrencies[currencyPicker.selectedRow(inComponent: 1)]
+        
+        if baseCurrency == "USD" {
+            
+        } else if conversionCurrency == "USD" {
+            return "\(toUSD(amount: Double(amountLabel.text!)!, conversion: 2.5))"
+        } else {
+            
+        }
         
         return ""
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if component == 0 {
-            return baseCurrency[row]
+            return baseCurrencies[row]
         } else {
-            return compareCurrency[row]
+            return compareCurrencies[row]
         }
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0{
-            return baseCurrency.count
+            return baseCurrencies.count
         } else {
-            return compareCurrency.count
+            return compareCurrencies.count
         }
     }
     
@@ -84,7 +95,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         } else {
             if amountLabel.text != ""{
                 let formattedCurrency = String(format: "%.2f", Double(amountLabel.text!)!)
-                switch compareCurrency[row] {
+                switch compareCurrencies[row] {
                 case "AUD":
                     convertedLabel.text = "\(Double(formattedCurrency)! * 1.324)"
                     convertedCurrencyType.text = "AUD"
